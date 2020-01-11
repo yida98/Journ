@@ -10,17 +10,13 @@ import SwiftUI
 
 struct GroupRow: View {
     
-    @Binding var listOfSingles: [Int] // [[1,2,3,4,5,6,7],[1,2,3,4,5,6,7],[1,2]]
+    var listOfSingles: [[Int]] // [[1,2,3,4,5,6,7],[1,2,3,4,5,6,7],[1,2]]
     
     var body: some View {
-        List(alignmentGuide(.top, computeValue: { _ in
-            return Constant.screenSize / 7 // negative alignment
-        })) { // First of each group of seven
-            ForEach(listOfSingles.count/7) {
-                List {
-                    ForEach() {
-                        Block(num: 1)
-                    }
+        List(listOfSingles, id: \.self.first) { intList in// First of each group of seven
+            List {
+                ForEach(intList, id: \.self) { item in
+                    Block(num: item)
                 }
             }
         }
@@ -29,14 +25,29 @@ struct GroupRow: View {
 
 struct GroupRow_Previews: PreviewProvider {
     static var previews: some View {
-        GroupRow()
+        let i = [[1,2,3,4,5,6,7],[8,9,10,11,12,13,14],[15,16]]
+        return GroupRow(listOfSingles: i)
     }
 }
 
 extension GroupRow {
-    private func makeSevens() {
-        let num = listOfSingles.count / 7
+    static func makeSevens(listOfSingle: [Int]) -> [[Int]] {
+        var listOfList = [[Int]]()
+        let num = listOfSingle.count / 7
+        let remainder = listOfSingle.count % 7
+        var index = 0
+        for _ in 0..<num {
+            let newList = Array(listOfSingle[index..<(index + 7)])
+            listOfList.append(newList)
+            index = index + 7
+        }
         
+        if remainder > 0 {
+            let newList = Array(listOfSingle[index..<(index + remainder)])
+            listOfList.append(newList)
+        }
+        
+        return listOfList
     }
 }
 
