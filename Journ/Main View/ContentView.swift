@@ -10,25 +10,27 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var entryViewModel: EntryViewModel
+    
     @State var isPresented: Bool = false
     
     @State var currentMonth = ["y": Date().getYear(), "m": Date().getMonth()]
-    @State var dayList: [String: [Int]] = ["Empty": [Int](), "Written": [Int]()]
     
     init(entryViewModel: EntryViewModel) {
         self.entryViewModel = entryViewModel
     }
     
     var body: some View {
-        Text("Hello World")
-//            .sheet(isPresented: $isPresented) {
-//                if let entry = entryViewModel.getEntry(from: Date()) {
-//                    EntryView(entry: entry)
-//                } else {
-//                    EntryView(entry: Entry(day: Date()))
-//                }
-//        }
-        
+        ZStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 0) {
+                header
+                CompositeListView(entryViewModel: entryViewModel)
+                InfoSheet(entryViewModel: entryViewModel)
+                    .padding(.bottom, -InfoSheet.cornerRadius)
+                
+            }.edgesIgnoringSafeArea(.bottom)
+                .background(SpecialColor.lightLightGrey)
+            header
+        }
     }
 }
 
@@ -39,12 +41,18 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 extension ContentView {
-    var listView: some View {
-        VStack {
-            ForEach($entryViewModel.dayList, id: \.self) { num in
-                <#code#>
-            }
-        }
+    
+    var header: some View {
+        HStack {
+            Spacer()
+            TextField("Add Name", text: $entryViewModel.name)
+                .multilineTextAlignment(.center)
+                .foregroundColor(SpecialColor.yellow)
+                .font(Font.nameFont)
+            Spacer()
+        }.padding()
+            .background(Color.white)
+            .clipped()
+            .shadow(radius: 3, x: 0, y: 5)
     }
 }
-

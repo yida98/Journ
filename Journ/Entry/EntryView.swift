@@ -55,13 +55,26 @@ struct EntryView_Previews: PreviewProvider {
 extension EntryView {
     
     var timeView: some View {
-        HStack {
+        VStack(alignment: .leading) {
             Text(entry.day.weekdayString())
+                .font(Font.weekdayFont)
+                .foregroundColor(SpecialColor.darkGrey)
+            
             Text(entry.day.monthDayString())
+                .font(Font.monthDayFont)
+                .foregroundColor(SpecialColor.yellow)
         }
     }
     
     var addImageButton: some View {
+//        VStack {
+//            Button(action:{
+//                self.presentationMode.wrappedValue.dismiss()
+//            }) {
+//                Image(uiImage: UIImage(imageLiteralResourceName: "addImageK"))
+//            }
+//
+//        }
         VStack {
             Spacer()
             HStack {

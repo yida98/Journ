@@ -14,4 +14,8 @@ class Constant {
     static var screenSize: CGFloat {
         return UIScreen.main.bounds.width
     }
+    
+    static var spacer: CGFloat {
+        return 0
+    }
 }

@@ -19,10 +19,14 @@ extension Date {
         } else {
             components = DateComponents(timeZone: timeZone, year: year, month: month)
         }
-        return calendar.date(from: components)!
+        if let result = calendar.date(from: components) {
+            return result
+        }
+        return nil
     }
     
-    static func numOfDays(in date:(Int, Int)) -> Int {
+    // recheck 
+    static func numOfDays(in date:(y: Int, m: Int)) -> Int {
         let currDate = Date()
         let calendar = Calendar.current
         if date.1 == currDate.getMonth() {
@@ -62,6 +66,12 @@ extension Date {
         formatter.dateFormat = "MMMM d"
         return formatter.string(from: self)
     }
+    
+    func monthString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM"
+        return formatter.string(from: self)
+    }
 
 //    func getTimeZone() -> TimeZone {
 //        return TimeZone.current
@@ -87,6 +97,13 @@ extension Date {
     
     func same(as date: Date) -> Bool {
         if self.getYear() == date.getYear() && self.getMonth() == date.getMonth() && self.getDay() == date.getDay() {
+            return true
+        }
+        return false
+    }
+    
+    static func currMonth(as date: Date) -> Bool {
+        if Date().getYear() == date.getYear() && Date().getMonth() == date.getMonth() {
             return true
         }
         return false
