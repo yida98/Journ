@@ -21,22 +21,55 @@ struct CompositeListView: View {
     
     // TODO: Need to clip between scenes
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-    //            ForEach(entryViewModel.dayList, id: \.self) { (num) in
-    //                GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-    //                    .listRowInsets(EdgeInsets(top: 0, leading: CompositeListView.spacer, bottom: 0, trailing: 0))
-    //                    .padding()
-    //            }
+        HStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), id: \.self) { (num) in
+                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                            .listRowInsets(EdgeInsets())
+                    }
+                    
+                    // TEST
+    //                ForEach(test, id: \.self) { (num) in
+    //                    GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+    //                        .listRowInsets(EdgeInsets())
+    //                }
                 
-                // TEST
-                ForEach(test, id: \.self) { (num) in
-                    GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                        .listRowInsets(EdgeInsets())
-                }
-            
-    //            .listRowBackground(SpecialColor.lightLightGrey)
-            }.background(SpecialColor.lightLightGrey)
+        //            .listRowBackground(SpecialColor.lightLightGrey)
+                }.background(SpecialColor.lightLightGrey)
+            }
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), id: \.self) { (num) in
+                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                            .listRowInsets(EdgeInsets())
+                    }
+                    
+                    // TEST
+    //                ForEach(test, id: \.self) { (num) in
+    //                    GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+    //                        .listRowInsets(EdgeInsets())
+    //                }
+                
+        //            .listRowBackground(SpecialColor.lightLightGrey)
+                }.background(SpecialColor.lightLightGrey)
+            }
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), id: \.self) { (num) in
+                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                            .listRowInsets(EdgeInsets())
+                    }
+                    
+                    // TEST
+    //                ForEach(test, id: \.self) { (num) in
+    //                    GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+    //                        .listRowInsets(EdgeInsets())
+    //                }
+                
+        //            .listRowBackground(SpecialColor.lightLightGrey)
+                }.background(SpecialColor.lightLightGrey)
+            }
         }
     }
 }

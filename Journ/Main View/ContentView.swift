@@ -13,7 +13,7 @@ struct ContentView: View {
     
     @State var isPresented: Bool = false
     
-    @State var currentMonth = ["y": Date().getYear(), "m": Date().getMonth()]
+//    @State var currentMonth = ["y": Date().getYear(), "m": Date().getMonth()]
     
     init(entryViewModel: EntryViewModel) {
         self.entryViewModel = entryViewModel
@@ -56,9 +56,4 @@ extension ContentView {
             .shadow(radius: 3, x: 0, y: 5)
     }
     
-    var swipeView: some View {
-        HStack {
-            CompositeListView(entryViewModel: entryViewModel)
-        }
-    }
 }

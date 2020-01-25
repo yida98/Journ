@@ -51,11 +51,7 @@ extension Date {
        }
        return 0
     }
-    
-    static var currTimeZone: TimeZone = {
-        return TimeZone.current
-    }()
-    
+        
     func weekdayString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
@@ -74,10 +70,6 @@ extension Date {
         return formatter.string(from: self)
     }
 
-//    func getTimeZone() -> TimeZone {
-//        return TimeZone.current
-//    }
-    
     func getDay() -> Int {
         let calendar = Calendar.current
         let today = calendar.component(.day, from: self)
@@ -109,6 +101,10 @@ extension Date {
         }
         return false
     }
+    
+    static var currTimeZone: TimeZone = {
+        return TimeZone.current
+    }()
     
     var year: Int {
         let calendar = Calendar.current

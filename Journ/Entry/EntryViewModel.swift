@@ -13,9 +13,10 @@ class EntryViewModel: ObservableObject {
     
 //    private var currentMonthYear = ["y": Date().getYear(), "m": Date().getMonth()]
     
-    private var currentDisplayMY: Date = Date()
+    @Published var currentDisplayMY: Date = Date()
 //    @Published var dayList: [String: [Int]] = ["Empty": [Int](), "Written": [Int]()]
     @Published var dayList: [[Int]] = [[Int]]() // [[1,2,3,4],[5],[6,7]]
+    
     
 //    @Published var usageList: [ListItem] = [ListItem]()
     @Published var name: String = "Carrie"
@@ -78,30 +79,27 @@ extension EntryViewModel {
     
     // All about days
     
-    private func makeDays() {
-        dayList = [[Int]]()
-        let numOfDays = Date.numOfDays(in: (currentDisplayMY.year, currentDisplayMY.month))
+    func makeDayList(for date: Date) -> [[Int]] {
+        var result = [[Int]]()
+        let numOfDays = Date.numOfDays(in: (date.year, date.month)) // correct
         
         var i = 1
         while i <= numOfDays {
-            var n = i + 1
-            var currList = [Int]()
-            if let _ = entries.first(where: { $0.day.getYear() == currentDisplayMY.year && $0.day.getMonth() == i }) {
-                currList.append(i)
-                while (entries.first(where: { $0.day.getYear() == currentDisplayMY.year && $0.day.getMonth() == n }) != nil) && n <= numOfDays {
-                    currList.append(n)
-                    n += 1
-                }
-                dayList.append(currList)
+            var currList = [i]
+            if let _ = entries.first(where: { $0.day.getYear() == date.year && $0.day.getMonth() == date.month && $0.day.getDay() == i }) {
+                result.append(currList)
+                i += 1
             } else {
-                currList.append(i)
-                while entries.first(where: { $0.day.getYear() == currentDisplayMY.year && $0.day.getMonth() == n }) == nil && n <= numOfDays {
+                var n = i + 1
+                while entries.first(where: { $0.day.getYear() == date.year && $0.day.getMonth() == date.month && $0.day.getDay() == n }) == nil && n <= numOfDays {
                     currList.append(n)
                     n += 1
                 }
+                result.append(currList)
+                i = n + 1
             }
-            i = n + 1
         }
+        return result
     }
     
     static func makeSevens(listOfSingle: [Int]) -> [[Int]] {
@@ -123,8 +121,16 @@ extension EntryViewModel {
         return listOfList
     }
     
-    func makeDate(d: Int) -> Date {
+    private func makeDate(d: Int) -> Date {
         return Date.makeDate(year: currentDisplayMY.year, month: currentDisplayMY.month, day:d) ?? Date()
+    }
+    
+    func weekdayStringWith(d: Int) -> String{
+        return makeDate(d: d).weekdayString()
+    }
+    
+    func monthDayStringWith(d: Int) -> String{
+        return makeDate(d: d).monthDayString()
     }
     
     func currMonthString() -> String {
