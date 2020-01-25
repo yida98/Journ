@@ -16,6 +16,8 @@
 		25EB315523863665008C5904 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB315423863665008C5904 /* EntryView.swift */; };
 		25EB315723864440008C5904 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB315623864440008C5904 /* Entry.swift */; };
 		25EB315923864645008C5904 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB315823864645008C5904 /* DateExt.swift */; };
+		E40A5F5E23D3C0470071EB09 /* YearMonthDict.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40A5F5D23D3C0470071EB09 /* YearMonthDict.swift */; };
+		E40A5F6023DA386A0071EB09 /* Date+exp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40A5F5F23DA386A0071EB09 /* Date+exp.swift */; };
 		E4457B3A23BAEB9B00E19410 /* NotificationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4457B3923BAEB9B00E19410 /* NotificationExt.swift */; };
 		E4457B3C23BDB4B900E19410 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4457B3B23BDB4B900E19410 /* EntryViewModel.swift */; };
 		E4457B3E23BDE2C900E19410 /* GroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4457B3D23BDE2C900E19410 /* GroupRow.swift */; };
@@ -39,6 +41,8 @@
 		25EB315423863665008C5904 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		25EB315623864440008C5904 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		25EB315823864645008C5904 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
+		E40A5F5D23D3C0470071EB09 /* YearMonthDict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearMonthDict.swift; sourceTree = "<group>"; };
+		E40A5F5F23DA386A0071EB09 /* Date+exp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+exp.swift"; sourceTree = "<group>"; };
 		E4457B3923BAEB9B00E19410 /* NotificationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExt.swift; sourceTree = "<group>"; };
 		E4457B3B23BDB4B900E19410 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		E4457B3D23BDE2C900E19410 /* GroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRow.swift; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 				25EB315423863665008C5904 /* EntryView.swift */,
 				25EB315623864440008C5904 /* Entry.swift */,
 				E4457B3B23BDB4B900E19410 /* EntryViewModel.swift */,
+				E40A5F5D23D3C0470071EB09 /* YearMonthDict.swift */,
+				E40A5F5F23DA386A0071EB09 /* Date+exp.swift */,
 			);
 			path = Entry;
 			sourceTree = "<group>";
@@ -215,10 +221,12 @@
 				25EB314523863154008C5904 /* ContentView.swift in Sources */,
 				E4C240B923CE751D00D3430F /* SpecialColour.swift in Sources */,
 				E4EA5D6E23D119A3008792B0 /* CustomSpacer.swift in Sources */,
+				E40A5F5E23D3C0470071EB09 /* YearMonthDict.swift in Sources */,
 				E45BC43723BAC22700DCF304 /* FontVar.swift in Sources */,
 				E4457B3C23BDB4B900E19410 /* EntryViewModel.swift in Sources */,
 				25EB315523863665008C5904 /* EntryView.swift in Sources */,
 				25EB315923864645008C5904 /* DateExt.swift in Sources */,
+				E40A5F6023DA386A0071EB09 /* Date+exp.swift in Sources */,
 				E48850C623C4D8150053F84D /* Constant.swift in Sources */,
 				E4B5BA6A23D11E7F00ACCAB7 /* InfoSheet.swift in Sources */,
 			);

@@ -71,7 +71,8 @@ extension GroupRow {
         HStack {
             CustomSpacer(space: Space.left)
             VStack(alignment: .leading) {
-                Text(entryViewModel.makeDate(d: listOfSingles.first ?? 0).weekdayString()).font(Font.weekdayFont)
+                Text(entryViewModel.makeDate(d: listOfSingles.first ?? 0).weekdayString())
+                    .font(Font.weekdayFont)
                     .foregroundColor(SpecialColor.darkGrey)
                 
                 Text(entryViewModel.makeDate(d: listOfSingles.first ?? 0).monthDayString())

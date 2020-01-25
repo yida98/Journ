@@ -10,6 +10,7 @@ import Foundation
 
 extension Date {
     
+    // Maybe dont let any weird dates, MOM!
     static func makeDate(timeZone: TimeZone = Date.currTimeZone, year: Int, month: Int, day: Int = 0) -> Date? {
         let calendar = Calendar(identifier: .gregorian)
         // calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -107,5 +108,33 @@ extension Date {
             return true
         }
         return false
+    }
+    
+    var year: Int {
+        let calendar = Calendar.current
+        let thisYear = calendar.component(.year, from: self)
+        return thisYear
+    }
+    
+    var month: Int {
+        let calendar = Calendar.current
+        let thisMonth = calendar.component(.month, from: self)
+        return thisMonth
+    }
+    
+    func previousMonth() -> Date {
+        return Calendar.current.date(byAdding: .month, value: -1, to: self)!
+    }
+    
+    func nextMonth() -> Date {
+        return Calendar.current.date(byAdding: .month, value: 1, to: self)!
+    }
+    
+    mutating func toPreviousMonth() {
+        self = Calendar.current.date(byAdding: .month, value: -1, to: self)!
+    }
+    
+    mutating func toNextMonth() {
+        self = Calendar.current.date(byAdding: .month, value: 1, to: self)!
     }
 }

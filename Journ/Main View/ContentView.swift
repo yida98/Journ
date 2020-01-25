@@ -55,4 +55,10 @@ extension ContentView {
             .clipped()
             .shadow(radius: 3, x: 0, y: 5)
     }
+    
+    var swipeView: some View {
+        HStack {
+            CompositeListView(entryViewModel: entryViewModel)
+        }
+    }
 }
