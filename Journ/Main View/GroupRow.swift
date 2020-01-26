@@ -11,7 +11,7 @@ import SwiftUI
 struct GroupRow: View {
     
     @ObservedObject var entryViewModel: EntryViewModel
-    var listOfSingles: [Int] // [[1,2,3,4,5,6,7],[1,2,3,4,5,6,7],[1,2]]
+    var listOfSingles: [Int] = [1]// [[1,2,3,4,5,6,7],[1,2,3,4,5,6,7],[1,2]]
     
     @State var isPresenting: Bool = false
     
@@ -41,7 +41,7 @@ struct GroupRow: View {
 
 struct GroupRow_Previews: PreviewProvider {
     static var previews: some View {
-        let i = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]// [[1,2,3,4,5,6,7],[8,9,10,11,12,13,14],[15,16]]
+        let i = [1]//,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]// [[1,2,3,4,5,6,7],[8,9,10,11,12,13,14],[15,16]]
         return GroupRow(entryViewModel: EntryViewModel(), listOfSingles: i)
     }
 }
@@ -112,7 +112,7 @@ struct Block: View {
                 .foregroundColor(.white)
                 .background(SpecialColor.lightGrey)
 //                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .cornerRadius(10)
+                .cornerRadius(5)
                 .font(Font.dayFont)
         }.sheet(isPresented: $isPresenting) {
             EntryView(entry: self.entryViewModel.newEntry(from: self.num))
