@@ -25,43 +25,39 @@ struct CompositeListView: View {
     var body: some View {
         
         let drag = DragGesture()
-            .onChanged({ (value) in
-                print("changing")
-                self.isDragging = true
-                self.draggedOffset = value.translation.width / 2
-            })
-            .onEnded({ (value) in
-                print("ended")
-                if self.draggedOffset > 70 {
-                    withAnimation(.easeOut) {
-                        self.draggedOffset = Constant.screenSize
-                    }
-                    self.entryViewModel.goToPrevMonth()
-                } else if self.draggedOffset < -70 && !self.entryViewModel.isMostRecentMonth() {
-                    withAnimation(.easeOut) {
-                        self.draggedOffset = -Constant.screenSize
-                    }
-                    self.entryViewModel.goToNextMonth()
-                } else {
-                    withAnimation(.easeOut) {
-                        self.draggedOffset = .zero
-                    }
+        .onChanged({ (value) in
+            print("changing")
+            self.isDragging = true
+            self.draggedOffset = value.translation.width / 2
+        })
+        .onEnded({ (value) in
+            print("ended")
+            if self.draggedOffset > 70 {
+                withAnimation {
+                    self.draggedOffset = Constant.screenSize
                 }
-                self.isDragging = false
-                self.draggedOffset = .zero
-            })
-
+                self.entryViewModel.goToPrevMonth()
+            } else if self.draggedOffset < -70 && !self.entryViewModel.isMostRecentMonth() {
+                withAnimation {
+                    self.draggedOffset = -Constant.screenSize
+                }
+                self.entryViewModel.goToNextMonth()
+            } else {
+                withAnimation {
+                    self.draggedOffset = .zero
+                }
+            }
+            self.isDragging = false
+            self.draggedOffset = .zero
+        })
+        
         return HStack(alignment: .top, spacing: 0) {
-            ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .center) {
                     ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), id: \.self) { (num) in
                         GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
                             .listRowInsets(EdgeInsets())
                     }
                 }.background(SpecialColor.lightLightGrey)
-            }.frame(width: Constant.screenSize)
-                .disabled(true)
-            ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), id: \.self) { (num) in
                         GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
@@ -75,20 +71,15 @@ struct CompositeListView: View {
 //                    .listRowBackground(SpecialColor.lightLightGrey)
                     // TEST
                     Spacer()
-                }.background(Color.red)
-            }.frame(width: Constant.screenSize)
+                }.background(SpecialColor.lightLightGrey)
                 
             if !self.entryViewModel.isMostRecentMonth() {
-                ScrollView(.vertical, showsIndicators: false) {
                     VStack(alignment: .leading) {
                         ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), id: \.self) { (num) in
                             GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
                                 .listRowInsets(EdgeInsets())
                         }
                     }.background(SpecialColor.lightLightGrey)
-                }.frame(width: Constant.screenSize)
-                    .disabled(true)
-
             } else {
                 Spacer()
                     .frame(width: Constant.screenSize)
@@ -96,34 +87,7 @@ struct CompositeListView: View {
         }
         .frame(width: Constant.screenSize)
         .offset(x: self.draggedOffset)
-//        .gesture(
-//            DragGesture()
-//            .onChanged({ (value) in
-//                print("changing")
-//                self.isDragging = true
-//                self.draggedOffset = value.translation.width / 2
-//            })
-//            .onEnded({ (value) in
-//                print("ended")
-//                if self.draggedOffset > 70 {
-//                    withAnimation(.easeOut) {
-//                        self.draggedOffset = Constant.screenSize
-//                    }
-//                    self.entryViewModel.goToPrevMonth()
-//                } else if self.draggedOffset < -70 && !self.entryViewModel.isMostRecentMonth() {
-//                    withAnimation(.easeOut) {
-//                        self.draggedOffset = -Constant.screenSize
-//                    }
-//                    self.entryViewModel.goToNextMonth()
-//                } else {
-//                    withAnimation(.easeOut) {
-//                        self.draggedOffset = .zero
-//                    }
-//                }
-//                self.isDragging = false
-//                self.draggedOffset = .zero
-//            })
-//        )
+        .gesture(drag)
 
     }
 }
