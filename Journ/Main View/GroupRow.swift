@@ -64,6 +64,7 @@ extension GroupRow {
             }
             CustomSpacer(space: Space.leftInset)
         }.padding()
+            .frame(width: Constant.screenSize)
             
     }
     
