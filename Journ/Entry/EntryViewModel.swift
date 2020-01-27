@@ -147,6 +147,20 @@ extension EntryViewModel {
 
 extension EntryViewModel {
     
+    func goToPrevMonth() {
+        currentDisplayMY = currentDisplayMY.previousMonth()
+    }
+    
+    func goToNextMonth() {
+        currentDisplayMY = currentDisplayMY.nextMonth()
+    }
+    
+    func isMostRecentMonth() -> Bool {
+        if currentDisplayMY.same(as: Date()) {
+            return true
+        }
+        return false
+    }
 //    func getPreviousMonth() -> YearMonthDict {
 //        var resultM = yearMonthDict.getM()
 //        var resultY = yearMonthDict.getY()

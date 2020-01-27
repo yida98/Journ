@@ -15,7 +15,7 @@ struct CompositeListView: View {
 //    var test = [[1,2,3,4,5,6,7,8,9,10],[7],[8,9,10,11]]
     var test = [[1],[2],[3],[4],[5],[6]]//,[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],[9],[10],[11]]
     @State private var isDragging: Bool = false
-    @State private var draggedOffset: CGFloat = CGFloat.zero
+    @State private var draggedOffset: CGFloat = CGFloat.zero// Constant.screenSize / 2
     @GestureState private var dragState: DragState = DragState.inactive
     
     init(entryViewModel: EntryViewModel) {
@@ -24,7 +24,7 @@ struct CompositeListView: View {
     
     // TODO: Need to clip between scenes
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        HStack(alignment: .top, spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading) {
                     ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), id: \.self) { (num) in
@@ -49,37 +49,50 @@ struct CompositeListView: View {
                 }.background(SpecialColor.lightLightGrey)
             }.frame(width: Constant.screenSize)
             .disabled(true)
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), id: \.self) { (num) in
-                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                            .listRowInsets(EdgeInsets())
-                    }
-                }.background(SpecialColor.lightLightGrey)
-            }.frame(width: Constant.screenSize)
-            .disabled(true)
-            
+            if !self.entryViewModel.isMostRecentMonth() {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), id: \.self) { (num) in
+                            GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                                .listRowInsets(EdgeInsets())
+                        }
+                    }.background(SpecialColor.lightLightGrey)
+                }.frame(width: Constant.screenSize)
+                .disabled(true)
+
+            } else {
+                Spacer()
+                    .frame(width: Constant.screenSize)
+            }
         }
         .frame(width: Constant.screenSize)
         .offset(x: self.draggedOffset)
-        .animation(Animation.spring())
-        .simultaneousGesture(
+        .gesture(
             DragGesture()
             .onChanged({ (value) in
                 print("changing")
                 self.isDragging = true
-                self.draggedOffset = value.translation.width
+                self.draggedOffset = value.translation.width / 2
             })
             .onEnded({ (value) in
                 print("ended")
-                if self.draggedOffset > 120 {
-                    self.draggedOffset = Constant.screenSize
-                } else if self.draggedOffset < -120 {
-                    self.draggedOffset -= Constant.screenSize
+                if self.draggedOffset > 70 {
+                    withAnimation(.easeOut) {
+                        self.draggedOffset = Constant.screenSize
+                    }
+                    self.entryViewModel.goToPrevMonth()
+                } else if self.draggedOffset < -70 && !self.entryViewModel.isMostRecentMonth() {
+                    withAnimation(.easeOut) {
+                        self.draggedOffset = -Constant.screenSize
+                    }
+                    self.entryViewModel.goToNextMonth()
                 } else {
-                    self.draggedOffset = .zero
+                    withAnimation(.easeOut) {
+                        self.draggedOffset = .zero
+                    }
                 }
                 self.isDragging = false
+                self.draggedOffset = .zero
             })
         )
 

@@ -25,8 +25,8 @@ struct ContentView: View {
             VStack(alignment: .center, spacing: 0) {
                 header2
                 CompositeListView(entryViewModel: entryViewModel)
-                .offset(x: self.draggedOffset)
-                .animation(Animation.spring())
+//                .offset(x: self.draggedOffset)
+//                .animation(Animation.spring())
                 InfoSheet(entryViewModel: entryViewModel)
                     .padding(.bottom, -InfoSheet.cornerRadius)
                 
