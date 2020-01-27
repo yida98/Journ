@@ -16,7 +16,6 @@ struct CompositeListView: View {
     var test = [[1],[2],[3],[4],[5],[6]]//,[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],[9],[10],[11]]
     @State private var isDragging: Bool = false
     @State private var draggedOffset: CGFloat = CGFloat.zero// Constant.screenSize / 2
-    @GestureState private var dragState: DragState = DragState.inactive
     
     init(entryViewModel: EntryViewModel) {
         self.entryViewModel = entryViewModel
@@ -24,51 +23,8 @@ struct CompositeListView: View {
     
     // TODO: Need to clip between scenes
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), id: \.self) { (num) in
-                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                            .listRowInsets(EdgeInsets())
-                    }
-                }.background(SpecialColor.lightLightGrey)
-            }.frame(width: Constant.screenSize)
-                .disabled(true)
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), id: \.self) { (num) in
-                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                            .listRowInsets(EdgeInsets())
-                    }
-                    // TEST
-//                    ForEach(test, id: \.self) { (num) in
-//                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-//                            .listRowInsets(EdgeInsets())
-//                    }
-//                    .listRowBackground(SpecialColor.lightLightGrey)
-                }.background(SpecialColor.lightLightGrey)
-            }.frame(width: Constant.screenSize)
-            .disabled(true)
-            if !self.entryViewModel.isMostRecentMonth() {
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(alignment: .leading) {
-                        ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), id: \.self) { (num) in
-                            GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                                .listRowInsets(EdgeInsets())
-                        }
-                    }.background(SpecialColor.lightLightGrey)
-                }.frame(width: Constant.screenSize)
-                .disabled(true)
-
-            } else {
-                Spacer()
-                    .frame(width: Constant.screenSize)
-            }
-        }
-        .frame(width: Constant.screenSize)
-        .offset(x: self.draggedOffset)
-        .gesture(
-            DragGesture()
+        
+        let drag = DragGesture()
             .onChanged({ (value) in
                 print("changing")
                 self.isDragging = true
@@ -94,7 +50,80 @@ struct CompositeListView: View {
                 self.isDragging = false
                 self.draggedOffset = .zero
             })
-        )
+
+        return HStack(alignment: .top, spacing: 0) {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .center) {
+                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), id: \.self) { (num) in
+                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                            .listRowInsets(EdgeInsets())
+                    }
+                }.background(SpecialColor.lightLightGrey)
+            }.frame(width: Constant.screenSize)
+                .disabled(true)
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), id: \.self) { (num) in
+                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                            .listRowInsets(EdgeInsets())
+                    }
+                    // TEST
+//                    ForEach(test, id: \.self) { (num) in
+//                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+//                            .listRowInsets(EdgeInsets())
+//                    }
+//                    .listRowBackground(SpecialColor.lightLightGrey)
+                    // TEST
+                    Spacer()
+                }.background(Color.red)
+            }.frame(width: Constant.screenSize)
+                
+            if !self.entryViewModel.isMostRecentMonth() {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), id: \.self) { (num) in
+                            GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+                                .listRowInsets(EdgeInsets())
+                        }
+                    }.background(SpecialColor.lightLightGrey)
+                }.frame(width: Constant.screenSize)
+                    .disabled(true)
+
+            } else {
+                Spacer()
+                    .frame(width: Constant.screenSize)
+            }
+        }
+        .frame(width: Constant.screenSize)
+        .offset(x: self.draggedOffset)
+//        .gesture(
+//            DragGesture()
+//            .onChanged({ (value) in
+//                print("changing")
+//                self.isDragging = true
+//                self.draggedOffset = value.translation.width / 2
+//            })
+//            .onEnded({ (value) in
+//                print("ended")
+//                if self.draggedOffset > 70 {
+//                    withAnimation(.easeOut) {
+//                        self.draggedOffset = Constant.screenSize
+//                    }
+//                    self.entryViewModel.goToPrevMonth()
+//                } else if self.draggedOffset < -70 && !self.entryViewModel.isMostRecentMonth() {
+//                    withAnimation(.easeOut) {
+//                        self.draggedOffset = -Constant.screenSize
+//                    }
+//                    self.entryViewModel.goToNextMonth()
+//                } else {
+//                    withAnimation(.easeOut) {
+//                        self.draggedOffset = .zero
+//                    }
+//                }
+//                self.isDragging = false
+//                self.draggedOffset = .zero
+//            })
+//        )
 
     }
 }
@@ -102,41 +131,5 @@ struct CompositeListView: View {
 struct CompositeListView_Previews: PreviewProvider {
     static var previews: some View {
         CompositeListView(entryViewModel: EntryViewModel())
-    }
-}
-
-extension CompositeListView {
-    
-    enum DragState {
-        case inactive
-        case pressing
-        case dragging(translation: CGSize)
-        
-        var translation: CGSize {
-            switch self {
-            case .inactive, .pressing:
-                return .zero
-            case .dragging(let translation):
-                return translation
-            }
-        }
-        
-        var isActive: Bool {
-            switch self {
-            case .inactive:
-                return false
-            case .pressing, .dragging:
-                return true
-            }
-        }
-        
-        var isDragging: Bool {
-            switch self {
-            case .inactive, .pressing:
-                return false
-            case .dragging:
-                return true
-            }
-        }
     }
 }
