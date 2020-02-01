@@ -13,15 +13,14 @@ struct CompositeListView: View {
     
     @ObservedObject var entryViewModel: EntryViewModel
 //    var test = [[1,2,3,4,5,6,7,8,9,10],[7],[8,9,10,11]]
-    var test = [[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]]//,[9],[10],[11]]
+    var test = [[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]]
     @State private var isDragging: Bool = false
-    @State private var draggedOffset: CGFloat = CGFloat.zero// Constant.screenSize / 2
+    @State private var draggedOffset: CGFloat = CGFloat.zero
     
     init(entryViewModel: EntryViewModel) {
         self.entryViewModel = entryViewModel
     }
     
-    // TODO: Need to clip between scenes
     var body: some View {
         
         let drag = DragGesture()
@@ -55,9 +54,8 @@ struct CompositeListView: View {
             VStack {
                 GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), displayMY: entryViewModel.currentDisplayMY.previousMonth())
                     .listRowInsets(EdgeInsets())
-//                .listRowBackground(SpecialColor.lightLightGrey)
             }.background(SpecialColor.lightLightGrey)
-            .disabled(true)
+                .disabled(true)
                 .frame(width: Constant.screenSize.width)
             VStack {
                 GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), displayMY: entryViewModel.currentDisplayMY)
@@ -67,15 +65,12 @@ struct CompositeListView: View {
 //                                .listRowInsets(EdgeInsets())
 //                        .listRowBackground(SpecialColor.lightLightGrey)
                     // TEST
-//                    Spacer()
-                }//.background(SpecialColor.lightLightGrey)
-//                .frame(width: Constant.screenSize.width)
+                }
                 .highPriorityGesture(drag)
             if !self.entryViewModel.isMostRecentMonth() {
                 VStack(alignment: .leading) {
                     GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), displayMY: entryViewModel.currentDisplayMY.nextMonth())
                             .listRowInsets(EdgeInsets())
-//                    .listRowBackground(SpecialColor.lightLightGrey)
                 }.background(SpecialColor.lightLightGrey)
                 .disabled(true)
                     .frame(width: Constant.screenSize.width)
@@ -87,7 +82,6 @@ struct CompositeListView: View {
         }
         .frame(width: Constant.screenSize.width)
         .offset(x: self.draggedOffset)
-//        .highPriorityGesture(drag)
     }
 }
 

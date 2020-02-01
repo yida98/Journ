@@ -13,9 +13,7 @@ struct ContentView: View {
     
     @State var isPresented: Bool = false
     @State private var draggedOffset: CGFloat = CGFloat.zero
-    
-//    @State var currentMonth = ["y": Date().getYear(), "m": Date().getMonth()]
-    
+        
     init(entryViewModel: EntryViewModel) {
         self.entryViewModel = entryViewModel
     }

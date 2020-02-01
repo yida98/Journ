@@ -10,15 +10,10 @@ import Foundation
 
 class EntryViewModel: ObservableObject {
     @Published var entries: [Entry] = []
-    
-//    private var currentMonthYear = ["y": Date().getYear(), "m": Date().getMonth()]
-    
+        
     @Published var currentDisplayMY: Date = Date()
-//    @Published var dayList: [String: [Int]] = ["Empty": [Int](), "Written": [Int]()]
     @Published var dayList: [[Int]] = [[Int]]() // [[1,2,3,4],[5],[6,7]]
     
-    
-//    @Published var usageList: [ListItem] = [ListItem]()
     @Published var name: String = "Carrie"
     
     private var ratio: Int = 0
@@ -121,26 +116,6 @@ extension EntryViewModel {
         return listOfList
     }
     
-    func makeSevens(listOfSingle: [Int]) -> [[Int]] {
-        var listOfList = [[Int]]()
-        let num = listOfSingle.count / 7
-        let remainder = listOfSingle.count % 7
-        var index = 1
-        while index <= listOfList.count {
-            
-            let newList = Array(listOfSingle[index..<(index + 7)])
-            listOfList.append(newList)
-            index = index + 7
-        }
-        
-        if remainder > 0 {
-            let newList = Array(listOfSingle[index..<(index + remainder)])
-            listOfList.append(newList)
-        }
-        
-        return listOfList
-    }
-    
     private func makeDate(d: Int, m: Int?, y: Int?) -> Date {
         return Date.makeDate(year: y ?? currentDisplayMY.year, month: m ?? currentDisplayMY.month, day: d) ?? Date()
     }
@@ -181,47 +156,6 @@ extension EntryViewModel {
         }
         return false
     }
-//    func getPreviousMonth() -> YearMonthDict {
-//        var resultM = yearMonthDict.getM()
-//        var resultY = yearMonthDict.getY()
-//        if yearMonthDict.getM() == 1 {
-//            resultM = 12
-//            resultY -= 1
-//        } else {
-//            resultM -= 1
-//        }
-//        return YearMonthDict(y: resultY, m: resultM)
-//    }
-//
-//    func getNextMonth() -> YearMonthDict? {
-//        var resultM = yearMonthDict.getM()
-//        var resultY = yearMonthDict.getY()
-//        if yearMonthDict.getY() < Date().getYear() {
-//            if yearMonthDict.getM() == 12 {
-//                resultM = 1
-//                resultY += 1
-//            } else {
-//                resultM += 1
-//            }
-//        } else {
-//            if yearMonthDict.getM() < Date().getMonth() {
-//                resultM += 1
-//            } else {
-//                return nil
-//            }
-//        }
-//        return YearMonthDict(y: resultY, m: resultM)
-//    }
-//
-//    func previousMonth() {
-//        yearMonthDict = getPreviousMonth()
-//    }
-//
-//    func nextMonth() {
-//        if let next = getNextMonth() {
-//            yearMonthDict = next
-//        }
-//    }
 }
 
 extension EntryViewModel {

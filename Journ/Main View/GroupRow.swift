@@ -32,7 +32,7 @@ struct GroupRow: View {
             VStack(alignment: .leading){
                 ForEach(entryViewModel.makeDayList(for: displayMY), id: \.self.first) { list in
                     Group {
-                        if list.count == 1 { //} self.entryViewModel.isEntry(d: list.first ?? 0, m: self.displayMY.getMonth(),y: self.displayMY.getYear()) {
+                        if self.entryViewModel.isEntry(d: list.first ?? 0, m: self.displayMY.getMonth(),y: self.displayMY.getYear()) {
                             // Single Pane
                             SingleView(entryViewModel: self.entryViewModel, num: list.first ?? 0, displayMY: self.displayMY)
                         } else {
@@ -69,7 +69,6 @@ struct SingleView: View {
     
     var body: some View {
         HStack {
-//            CustomSpacer(hSpace: Space.left)
             VStack(alignment: .leading) {
                 Text(self.entryViewModel.weekdayStringWith(d: num, m: self.displayMY.getMonth(),y: self.displayMY.getYear()))
                     .font(Font.weekdayFont)
@@ -143,12 +142,10 @@ struct Block: View {
             self.isPresenting.toggle()
         }) {
             // TODO:
-//            EntryView(entry: Entry(day: Date()))
             Text(String(num))
                 .frame(width: Block.frameSize, height: Block.frameSize, alignment: .center)
                 .foregroundColor(.white)
                 .background(SpecialColor.lightGrey)
-//                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .cornerRadius(Constant.cornerRadius)
                 .font(Font.dayFont)
         }.sheet(isPresented: $isPresenting) {
