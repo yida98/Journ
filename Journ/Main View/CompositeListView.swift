@@ -32,12 +32,12 @@ struct CompositeListView: View {
         .onEnded({ (value) in
             if self.draggedOffset > 60 {
                 withAnimation(.spring()) {
-                    self.draggedOffset = Constant.screenSize
+                    self.draggedOffset = Constant.screenSize.width
                 }
                     self.entryViewModel.goToPrevMonth()
             } else if self.draggedOffset < -60 && !self.entryViewModel.isMostRecentMonth() {
                 withAnimation(.spring()) {
-                    self.draggedOffset = -Constant.screenSize
+                    self.draggedOffset = -Constant.screenSize.width
                 }
                     self.entryViewModel.goToNextMonth()
             } else {
@@ -58,20 +58,18 @@ struct CompositeListView: View {
 //                .listRowBackground(SpecialColor.lightLightGrey)
             }.background(SpecialColor.lightLightGrey)
             .disabled(true)
-            .frame(width: Constant.screenSize)
+                .frame(width: Constant.screenSize.width)
             VStack {
                 GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), displayMY: entryViewModel.currentDisplayMY)
                     .listRowInsets(EdgeInsets())
                     // TEST
-    //                    ForEach(test, id: \.self) { (num) in
-    //                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-    //                            .listRowInsets(EdgeInsets())
-    //                    }
-    //                    .listRowBackground(SpecialColor.lightLightGrey)
+//                            GroupRow(entryViewModel: self.entryViewModel, listOfList: test, displayMY: entryViewModel.currentDisplayMY)
+//                                .listRowInsets(EdgeInsets())
+//                        .listRowBackground(SpecialColor.lightLightGrey)
                     // TEST
-                    Spacer()
-                }.background(SpecialColor.lightLightGrey)
-                .frame(width: Constant.screenSize)
+//                    Spacer()
+                }//.background(SpecialColor.lightLightGrey)
+//                .frame(width: Constant.screenSize.width)
                 .highPriorityGesture(drag)
             if !self.entryViewModel.isMostRecentMonth() {
                 VStack(alignment: .leading) {
@@ -80,14 +78,14 @@ struct CompositeListView: View {
 //                    .listRowBackground(SpecialColor.lightLightGrey)
                 }.background(SpecialColor.lightLightGrey)
                 .disabled(true)
-            .frame(width: Constant.screenSize)
+                    .frame(width: Constant.screenSize.width)
             } else {
                 Spacer()
-                    .frame(width: Constant.screenSize)
+                    .frame(width: Constant.screenSize.width)
                     .background(Color.red)
             }
         }
-        .frame(width: Constant.screenSize)
+        .frame(width: Constant.screenSize.width)
         .offset(x: self.draggedOffset)
 //        .highPriorityGesture(drag)
     }

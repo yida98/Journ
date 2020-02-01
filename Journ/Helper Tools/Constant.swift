@@ -11,11 +11,15 @@ import UIKit
 
 class Constant {
     
-    static var screenSize: CGFloat {
-        return UIScreen.main.bounds.width
+    static var screenSize: CGRect {
+        return UIScreen.main.bounds
     }
     
     static var spacer: CGFloat {
         return 0
+    }
+    
+    static var cornerRadius: CGFloat {
+        return 5
     }
 }

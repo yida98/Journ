@@ -23,19 +23,28 @@ struct GroupRow: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading){
-            ForEach(entryViewModel.makeDayList(for: displayMY), id: \.self.first) { list in
-                Group {
-                    if self.entryViewModel.isEntry(d: list.first ?? 0, m: self.displayMY.getMonth(),y: self.displayMY.getYear()) {
-                        // Single Pane
-                        SingleView(entryViewModel: self.entryViewModel, num: list.first ?? 0, displayMY: self.displayMY)
-                    } else {
-                        // Make Grid
-                        GridView(entryViewModel: self.entryViewModel, gridList: list)
+        // TEST
+//        VStack {
+//            SingleView(entryViewModel: self.entryViewModel, num: 11, displayMY: self.displayMY)
+//            GridView(entryViewModel: self.entryViewModel, gridList: [1,2,3,4,5,6,7,8,9,10])
+//        }
+        ScrollView {
+            VStack(alignment: .leading){
+                ForEach(entryViewModel.makeDayList(for: displayMY), id: \.self.first) { list in
+                    Group {
+                        if list.count == 1 { //} self.entryViewModel.isEntry(d: list.first ?? 0, m: self.displayMY.getMonth(),y: self.displayMY.getYear()) {
+                            // Single Pane
+                            SingleView(entryViewModel: self.entryViewModel, num: list.first ?? 0, displayMY: self.displayMY)
+                        } else {
+                            // Make Grid
+                            GridView(entryViewModel: self.entryViewModel, gridList: list)
+                        }
                     }
                 }
             }
-        }
+            Spacer()
+        }.background(SpecialColor.lightLightGrey)
+        .frame(width: Constant.screenSize.width)
     }
 }
 
@@ -60,7 +69,7 @@ struct SingleView: View {
     
     var body: some View {
         HStack {
-            CustomSpacer(hSpace: Space.left)
+//            CustomSpacer(hSpace: Space.left)
             VStack(alignment: .leading) {
                 Text(self.entryViewModel.weekdayStringWith(d: num, m: self.displayMY.getMonth(),y: self.displayMY.getYear()))
                     .font(Font.weekdayFont)
@@ -70,9 +79,14 @@ struct SingleView: View {
                     .font(Font.monthDayFont)
                     .foregroundColor(SpecialColor.yellow)
             }
+            .padding(.leading, Space.left)
             Spacer()
         }.padding()
+            .frame(width: Constant.screenSize.width - (2 * Space.left))
             .background(Color.white)
+            .clipped()
+            .cornerRadius(2 * Constant.cornerRadius)
+            .shadow(radius: 3, x: 0, y: 3)
     }
 }
 
@@ -103,7 +117,7 @@ struct GridView: View {
             }
             CustomSpacer(hSpace: Space.leftInset)
         }.padding()
-            .frame(width: Constant.screenSize)
+            .frame(width: Constant.screenSize.width)
 
     }
 }
@@ -116,7 +130,7 @@ struct Block: View {
     @State var isPresenting: Bool = false
     
     static var frameSize: CGFloat {
-        return (Constant.screenSize/7) - 14
+        return (Constant.screenSize.width/7) - 14
     }
     
     init(entryViewModel: EntryViewModel, num: Int) {
@@ -135,7 +149,7 @@ struct Block: View {
                 .foregroundColor(.white)
                 .background(SpecialColor.lightGrey)
 //                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .cornerRadius(5)
+                .cornerRadius(Constant.cornerRadius)
                 .font(Font.dayFont)
         }.sheet(isPresented: $isPresenting) {
             EntryView(entry: self.entryViewModel.newEntry(from: self.num))

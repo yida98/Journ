@@ -22,7 +22,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .center, spacing: 20) {
                 header2
                 CompositeListView(entryViewModel: entryViewModel)
                 InfoSheet(entryViewModel: entryViewModel)
