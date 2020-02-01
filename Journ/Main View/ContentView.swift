@@ -45,30 +45,36 @@ struct ContentView_Previews: PreviewProvider {
 extension ContentView {
     
     var header: some View {
-        HStack {
-            Spacer()
-            TextField("Add Name", text: $entryViewModel.name)
-                .multilineTextAlignment(.center)
-                .foregroundColor(SpecialColor.yellow)
-                .font(Font.nameFont)
-            Spacer()
-        }.padding()
-            .background(Color.white)
-            .clipped()
-            .shadow(radius: 3, x: 0, y: 5)
+        VStack(alignment: .center, spacing: 0) {
+            CustomSpacer(vSpace: Space.top)
+            HStack {
+                Spacer()
+                TextField("Add Name", text: $entryViewModel.name)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(SpecialColor.yellow)
+                    .font(Font.nameFont)
+                Spacer()
+            }.padding()
+        }
+        .background(Color.white)
+        .clipped()
+        .shadow(radius: 3, x: 0, y: 5)
     }
     
     var header2: some View {
-        HStack {
-            Spacer()
-            TextField("Add Name", text: $entryViewModel.name)
-                .multilineTextAlignment(.center)
-                .foregroundColor(SpecialColor.yellow)
-                .font(Font.nameFont)
-            Spacer()
-        }.padding()
-            .background(Color.white)
-            .clipped()
+        VStack(alignment: .center, spacing: 0) {
+            CustomSpacer(vSpace: Space.top)
+            HStack {
+                Spacer()
+                TextField("Add Name", text: $entryViewModel.name)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(SpecialColor.yellow)
+                    .font(Font.nameFont)
+                Spacer()
+            }.padding()
+        }
+        .background(Color.white)
+        .clipped()
     }
     
 }

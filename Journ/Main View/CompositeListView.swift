@@ -34,16 +34,12 @@ struct CompositeListView: View {
                 withAnimation(.spring()) {
                     self.draggedOffset = Constant.screenSize
                 }
-                DispatchQueue.main.async {
                     self.entryViewModel.goToPrevMonth()
-                }
             } else if self.draggedOffset < -60 && !self.entryViewModel.isMostRecentMonth() {
                 withAnimation(.spring()) {
                     self.draggedOffset = -Constant.screenSize
                 }
-                DispatchQueue.main.async {
                     self.entryViewModel.goToNextMonth()
-                }
             } else {
                 withAnimation {
                     self.draggedOffset = .zero
@@ -51,57 +47,49 @@ struct CompositeListView: View {
             }
             self.isDragging = false
             DispatchQueue.main.async {
-//                self.draggedOffset = CGFloat(0)
+                self.draggedOffset = CGFloat(0)
             }
         })
         
         return HStack(alignment: .top, spacing: 0) {
             VStack {
-                ForEach(test, id: \.self) { (num) in
-                    GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                        .listRowInsets(EdgeInsets())
-                }
-                .listRowBackground(SpecialColor.lightLightGrey)
+                GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), displayMY: entryViewModel.currentDisplayMY.previousMonth())
+                    .listRowInsets(EdgeInsets())
+//                .listRowBackground(SpecialColor.lightLightGrey)
             }.background(SpecialColor.lightLightGrey)
             .disabled(true)
             .frame(width: Constant.screenSize)
             VStack {
-                Text("hiiiiiiiiiiiiiiiiiiiiii")
-                    .frame(width: Constant.screenSize)
-                    .background(Color.red)
-//                ForEach(entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), id: \.self) { (num) in
-//                    GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-//                        .listRowInsets(EdgeInsets())
-//                }
-                // TEST
-//                    ForEach(test, id: \.self) { (num) in
-//                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-//                            .listRowInsets(EdgeInsets())
-//                    }
-//                    .listRowBackground(SpecialColor.lightLightGrey)
-                // TEST
-                Spacer()
-            }.background(SpecialColor.lightLightGrey)
-            .frame(width: Constant.screenSize)
-            .highPriorityGesture(drag)
-            if !self.entryViewModel.isMostRecentMonth() {
-                    VStack(alignment: .leading) {
-                        ForEach(test, id: \.self) { (num) in
-                            GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
-                                .listRowInsets(EdgeInsets())
-                        }
-                        .listRowBackground(SpecialColor.lightLightGrey)
-                    }.background(SpecialColor.lightLightGrey)
-                    .disabled(true)
+                GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY), displayMY: entryViewModel.currentDisplayMY)
+                    .listRowInsets(EdgeInsets())
+                    // TEST
+    //                    ForEach(test, id: \.self) { (num) in
+    //                        GroupRow(entryViewModel: self.entryViewModel, listOfSingles: num)
+    //                            .listRowInsets(EdgeInsets())
+    //                    }
+    //                    .listRowBackground(SpecialColor.lightLightGrey)
+                    // TEST
+                    Spacer()
+                }.background(SpecialColor.lightLightGrey)
                 .frame(width: Constant.screenSize)
+                .highPriorityGesture(drag)
+            if !self.entryViewModel.isMostRecentMonth() {
+                VStack(alignment: .leading) {
+                    GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.nextMonth()), displayMY: entryViewModel.currentDisplayMY.nextMonth())
+                            .listRowInsets(EdgeInsets())
+//                    .listRowBackground(SpecialColor.lightLightGrey)
+                }.background(SpecialColor.lightLightGrey)
+                .disabled(true)
+            .frame(width: Constant.screenSize)
             } else {
                 Spacer()
                     .frame(width: Constant.screenSize)
+                    .background(Color.red)
             }
         }
         .frame(width: Constant.screenSize)
         .offset(x: self.draggedOffset)
-        .highPriorityGesture(drag)
+//        .highPriorityGesture(drag)
     }
 }
 

@@ -10,11 +10,17 @@ import SwiftUI
 
 struct CustomSpacer: View {
     
-    var space: CGFloat
+    var hSpace: CGFloat
+    var vSpace: CGFloat
+    
+    init(hSpace: CGFloat = 0, vSpace: CGFloat = 0) {
+        self.hSpace = hSpace
+        self.vSpace = vSpace
+    }
     
     var body: some View {
         Spacer()
-            .frame(width: space)
+            .frame(width: hSpace, height: vSpace)
     }
 }
 
@@ -23,10 +29,11 @@ struct Space {
     static var leftInset: CGFloat {
         return ((Constant.screenSize - ((Block.frameSize) * 7 + 40)) / 2) - 25// List default inset
     }
+    static var top: CGFloat = 44
 }
 
 struct CustomSpacer_Previews: PreviewProvider {
     static var previews: some View {
-        CustomSpacer(space: Space.left)
+        CustomSpacer(hSpace: Space.left, vSpace: Space.top)
     }
 }

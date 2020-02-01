@@ -21,7 +21,7 @@ struct InfoSheet: View {
     
     var body: some View {
         HStack {
-            CustomSpacer(space: Space.left)
+            CustomSpacer(hSpace: Space.left)
             HStack(alignment: .top) { // Remove .top to drop "April" a little
                 VStack(alignment: .leading, spacing: 20) {
                     Text(entryViewModel.currMonthString())

@@ -95,6 +95,13 @@ extension Date {
         return false
     }
     
+    func sameMonth(as date: Date) -> Bool {
+        if self.getYear() == date.getYear() && self.getMonth() == date.getMonth() {
+            return true
+        }
+        return false
+    }
+ 
     static func currMonth(as date: Date) -> Bool {
         if Date().getYear() == date.getYear() && Date().getMonth() == date.getMonth() {
             return true

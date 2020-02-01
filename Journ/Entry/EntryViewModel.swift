@@ -31,8 +31,8 @@ extension EntryViewModel {
     
     // All about Entries
     
-    func isEntry(with day: Int) -> Bool {
-        return getEntry(d: day, m: nil, y: nil) != nil
+    func isEntry(d: Int, m: Int?, y: Int?) -> Bool {
+        return getEntry(d: d, m: m, y: y) != nil
     }
     
     func getEntry(from date: Date) -> Entry? {
@@ -79,7 +79,7 @@ extension EntryViewModel {
     
     // All about days
     
-    func makeDayList(for date: Date) -> [[Int]] {
+    func makeDayList(for date: Date) -> [[Int]] { // [[1,2,3],[4],[5,6,7,8,9,10,11,12],[13],[14]]
         var result = [[Int]]()
         let numOfDays = Date.numOfDays(in: (date.year, date.month)) // correct
         
@@ -121,16 +121,36 @@ extension EntryViewModel {
         return listOfList
     }
     
-    private func makeDate(d: Int) -> Date {
-        return Date.makeDate(year: currentDisplayMY.year, month: currentDisplayMY.month, day:d) ?? Date()
+    func makeSevens(listOfSingle: [Int]) -> [[Int]] {
+        var listOfList = [[Int]]()
+        let num = listOfSingle.count / 7
+        let remainder = listOfSingle.count % 7
+        var index = 1
+        while index <= listOfList.count {
+            
+            let newList = Array(listOfSingle[index..<(index + 7)])
+            listOfList.append(newList)
+            index = index + 7
+        }
+        
+        if remainder > 0 {
+            let newList = Array(listOfSingle[index..<(index + remainder)])
+            listOfList.append(newList)
+        }
+        
+        return listOfList
     }
     
-    func weekdayStringWith(d: Int) -> String{
-        return makeDate(d: d).weekdayString()
+    private func makeDate(d: Int, m: Int?, y: Int?) -> Date {
+        return Date.makeDate(year: y ?? currentDisplayMY.year, month: m ?? currentDisplayMY.month, day: d) ?? Date()
     }
     
-    func monthDayStringWith(d: Int) -> String{
-        return makeDate(d: d).monthDayString()
+    func weekdayStringWith(d: Int, m: Int?, y: Int?) -> String{
+        return makeDate(d: d, m: m, y: y).weekdayString()
+    }
+    
+    func monthDayStringWith(d: Int, m: Int?, y: Int?) -> String{
+        return makeDate(d: d, m: m, y: y).monthDayString()
     }
     
     func currMonthString() -> String {
@@ -156,7 +176,7 @@ extension EntryViewModel {
     }
     
     func isMostRecentMonth() -> Bool {
-        if currentDisplayMY.same(as: Date()) {
+        if currentDisplayMY.sameMonth(as: Date()) {
             return true
         }
         return false
