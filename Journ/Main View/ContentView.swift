@@ -20,17 +20,15 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(alignment: .center, spacing: 20) {
+            VStack(alignment: .center, spacing: 0) {
                 header2
                 CompositeListView(entryViewModel: entryViewModel)
                 InfoSheet(entryViewModel: entryViewModel)
-                    .padding(.bottom, -InfoSheet.cornerRadius)
-                
             }.edgesIgnoringSafeArea(.bottom)
                 .background(SpecialColor.lightLightGrey)
             header
         }.foregroundColor(Color.white)
-            .edgesIgnoringSafeArea(.top)
+            .edgesIgnoringSafeArea(.all)
     }
 }
 

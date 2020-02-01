@@ -28,7 +28,7 @@ struct GroupRow: View {
 //            SingleView(entryViewModel: self.entryViewModel, num: 11, displayMY: self.displayMY)
 //            GridView(entryViewModel: self.entryViewModel, gridList: [1,2,3,4,5,6,7,8,9,10])
 //        }
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading){
                 ForEach(entryViewModel.makeDayList(for: displayMY), id: \.self.first) { list in
                     Group {
@@ -44,7 +44,7 @@ struct GroupRow: View {
             }
             Spacer()
         }.background(SpecialColor.lightLightGrey)
-        .frame(width: Constant.screenSize.width)
+            .frame(width: Constant.screenSize.width)
     }
 }
 

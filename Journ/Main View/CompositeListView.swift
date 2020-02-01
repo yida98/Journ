@@ -75,9 +75,10 @@ struct CompositeListView: View {
                 .disabled(true)
                     .frame(width: Constant.screenSize.width)
             } else {
-                Spacer()
+                VStack {
+                    Spacer()
+                }
                     .frame(width: Constant.screenSize.width)
-                    .background(Color.red)
             }
         }
         .frame(width: Constant.screenSize.width)
