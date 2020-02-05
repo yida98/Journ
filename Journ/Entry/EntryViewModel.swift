@@ -52,6 +52,11 @@ extension EntryViewModel {
         guard let date = Date.makeDate(year: currentDisplayMY.year, month: currentDisplayMY.month, day: d) else { fatalError("Why can't I make a date") }
         return Entry(day: date)
     }
+    
+    func addEntry(entry: Entry) { // Retrieve and update
+//        if entries
+        entries.append(entry)
+    }
 
     
 //    private func updateUsageList() {

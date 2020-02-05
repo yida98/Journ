@@ -69,23 +69,26 @@ struct SingleView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(self.entryViewModel.weekdayStringWith(d: num, m: self.displayMY.getMonth(),y: self.displayMY.getYear()))
-                    .font(Font.weekdayFont)
-                    .foregroundColor(SpecialColor.darkGrey)
-                
-                Text(self.entryViewModel.monthDayStringWith(d: num, m: self.displayMY.getMonth(),y: self.displayMY.getYear()))
-                    .font(Font.monthDayFont)
-                    .foregroundColor(SpecialColor.yellow)
-            }
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(self.entryViewModel.weekdayStringWith(d: num, m: self.displayMY.getMonth(),y: self.displayMY.getYear()))
+                        .font(Font.weekdayFont)
+                        .foregroundColor(SpecialColor.darkGrey)
+                    
+                    Text(self.entryViewModel.monthDayStringWith(d: num, m: self.displayMY.getMonth(),y: self.displayMY.getYear()))
+                        .font(Font.monthDayFont)
+                        .foregroundColor(SpecialColor.yellow)
+                }
+                .padding(.leading, Space.left)
+                Spacer()
+            }.padding()
+                .frame(width: Constant.screenSize.width - (2 * Space.left))
+                .background(Color.white)
+                .clipped()
+                .cornerRadius(2 * Constant.cornerRadius)
+                .shadow(radius: 3, x: 0, y: 3)
+        }.padding(.vertical, 10)
             .padding(.leading, Space.left)
-            Spacer()
-        }.padding()
-            .frame(width: Constant.screenSize.width - (2 * Space.left))
-            .background(Color.white)
-            .clipped()
-            .cornerRadius(2 * Constant.cornerRadius)
-            .shadow(radius: 3, x: 0, y: 3)
     }
 }
 
@@ -148,8 +151,12 @@ struct Block: View {
                 .background(SpecialColor.lightGrey)
                 .cornerRadius(Constant.cornerRadius)
                 .font(Font.dayFont)
-        }.sheet(isPresented: $isPresenting) {
-            EntryView(entry: self.entryViewModel.newEntry(from: self.num))
+        }.sheet(isPresented: $isPresenting, onDismiss: dismissed) {
+            EntryView(entry: self.entryViewModel.newEntry(from: self.num), entryViewModel: self.entryViewModel)
         }
+    }
+    
+    func dismissed() {
+        // This is called first
     }
 }

@@ -13,6 +13,7 @@ import UIKit
 struct EntryView: View {
     
     @ObservedObject var entry: Entry
+    @ObservedObject var entryViewModel: EntryViewModel
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var showingImagePicker = false
@@ -20,18 +21,36 @@ struct EntryView: View {
     
     @State var cursorPosition: Int = 0
     
-    init(entry: Entry) {
+    init(entry: Entry, entryViewModel: EntryViewModel) {
         self.entry = entry
+        self.entryViewModel = entryViewModel
     }
     
     var body: some View {
-        ZStack {
+        
+        let tapToResign = TapGesture()
+            .onEnded({ (value) in
+                self.endEditing()
+            })
+        
+        return ZStack {
             VStack(alignment: .leading, spacing: CGFloat(15)) {
                 timeView
+                .gesture( tapToResign )
                 TextView(text: $entry.content, pos: $cursorPosition)
+                    .onTapGesture {
+                        // TODO: Block too much
+                }
             }
+                .padding(40)
             addImageButton
-        }
+        }.onDisappear(perform: {
+            self.entryViewModel.addEntry(entry: self.entry)
+        })
+    }
+    
+    private func endEditing() {
+        UIApplication.shared.endEditing()
     }
     
     func loadImage() {
@@ -48,7 +67,7 @@ struct EntryView_Previews: PreviewProvider {
     static var previews: some View {
 //        let nsmas = NSMutableAttributedString (string: "")
         
-        return EntryView(entry: Entry(day: Date()))//, text: nsmas)
+        return EntryView(entry: Entry(day: Date()), entryViewModel: EntryViewModel())//, text: nsmas)
     }
 }
 
@@ -178,5 +197,11 @@ struct ImagePicker: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
         
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

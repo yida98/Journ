@@ -51,7 +51,7 @@ struct CompositeListView: View {
         })
         
         return HStack(alignment: .top, spacing: 0) {
-            VStack {
+            VStack { // If most recent has an entry, it renders wrong
                 GroupRow(entryViewModel: self.entryViewModel, listOfList: entryViewModel.makeDayList(for: entryViewModel.currentDisplayMY.previousMonth()), displayMY: entryViewModel.currentDisplayMY.previousMonth())
                     .listRowInsets(EdgeInsets())
             }.background(SpecialColor.lightLightGrey)
